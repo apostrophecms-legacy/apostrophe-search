@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% include "pagerMacros.html" %}
+{% include "dateMacros.html" %}
+
+{% block bodyClass %}{{ super() }} search-page{% endblock %}
+
+{%- macro here(changes) -%}
+  {{ page.url | build(filterStatus, { q: query.q }, changes) }}#skipdown
+{%- endmacro -%}
+
+{% block mainContent %}
+
+  <form data-skip-down-to data-ajax-search-form class="apos-search-form" method="GET" action="{{ page.url | e }}#skipdown">
+    {# We can't use here() with a form, so reiterate the current #}
+    {# filters as hidden elements #}
+    {% for filter in searchFilters %}
+      {% if not filter.active %}
+        <input type="hidden" name="{{ filter.name | e }}" value="0" />
+      {% endif %}
+    {% endfor %}
+    Search For: <input name="q" value="{{ q | e }}" /> <input type="submit" />
+  </form>
+
+  {% if search %}
+    <h3 class="search-results-header">Search Results</h3>
+    {% if searchFilters %}
+      <p class="search-options">
+        {% for filter in searchFilters %}
+          {% if (filter.active) %}
+            <a data-ajax-search-link href="{{ here(aposObject(filter.name, '0')) }}" class="apos-search-filter apos-current">{{ filter.label }}</a>
+          {% else %}
+            <a data-ajax-search-link href="{{ here(aposObject(filter.name, '1')) }}" class="apos-search-filter">{{ filter.label }}</a>
+          {% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    <ul class="search-results">
+      {% for result in search %}
+        {% if result.type %}
+          <li data-type="{{ result.type }}" class="apos-result apos-result-{{ result.type }}">
+            <h4>
+              <a href="/apos-search/search-result?slug={{ result.slug }}">{{ result.title | e }}
+                {% if result.startDate %}
+                  <span class="apos-search-date">{{ formatDateRange(result) }}</span>
+                {% endif %}
+              </a>
+            </h4>
+            <p class="search-result-text">{{ result.searchSummary | truncate(400) }}</p>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {{ renderPager(pager, here({})) }}
+
+  {% endif %}
+
+{% endblock %}
