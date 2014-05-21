@@ -4,7 +4,9 @@ This module adds a user interface for sitewide search to A2 sites.
 
 ## Installation
 
+```bash
 npm install apostrophe-search
+```
 
 ## Activating the Module
 
