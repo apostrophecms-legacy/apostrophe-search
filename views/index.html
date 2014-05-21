@@ -47,6 +47,10 @@
                 {% endif %}
               </a>
             </h4>
+            {% set image = aposAreaImage(result, 'thumbnail') %}
+            {% if image %}
+              <img class="search-result-thumbnail" src="{{ aposFilePath(image, { size: 'one-sixth' }) }}" />
+            {% endif %}
             <p class="search-result-text">{{ result.searchSummary | truncate(400) }}</p>
           </li>
         {% endif %}

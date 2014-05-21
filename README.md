@@ -47,11 +47,11 @@ Note that the filter with the name "other" actually matches everything not match
 
 ```javascript
     apostrophe-search: {
-      searchFilters: [
+      filters: [
         {
           name: 'other',
           label: 'Pages'
-        }
+        },
         {
           name: 'blogPost',
           label: 'Articles'
@@ -64,7 +64,7 @@ You can also shut off filters entirely for a project:
 
 ```javascript
     apostrophe-search: {
-      searchFilters: false
+      filters: false
     }
 ```
 

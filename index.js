@@ -46,8 +46,8 @@ search.Search = function(options, callback) {
     apos.emit('addSearchFilters', searchFilters);
 
     // Option to override or shut off with false
-    if (self._options.searchFilters !== undefined) {
-      searchFilters = self._options.searchFilters;
+    if (self._options.filters !== undefined) {
+      searchFilters = _.cloneDeep(self._options.filters);
     }
 
     req.extras.searchFilters = searchFilters;
