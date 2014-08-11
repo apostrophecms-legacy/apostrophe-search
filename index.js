@@ -111,8 +111,6 @@ search.Search = function(options, callback) {
 
     var options = {};
 
-    self.addPager(req, options);
-
     var sort;
     if ((!req.query.sort) || (req.query.sort === 'quality')) {
       sort = 'q';
@@ -127,7 +125,7 @@ search.Search = function(options, callback) {
 
     self.addPager(req, options);
 
-    return self._apos.get(req, criteria, options, function(err, results) {
+    return self.get(req, criteria, options, function(err, results) {
       if (err) {
         console.error(err);
         req.statusCode = 500;
@@ -138,6 +136,11 @@ search.Search = function(options, callback) {
       req.template = self.renderer('index');
       return callback(null);
     });
+  };
+
+  // For project level overrides
+  self.get = function(req, criteria, options, callback) {
+    return self._apos.get(req, criteria, options, callback);
   };
 
   // Sets up req.extras.pager and adds skip and limit to the criteria.
