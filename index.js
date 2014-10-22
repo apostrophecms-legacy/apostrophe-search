@@ -1,3 +1,4 @@
+/* jshint node:true */
 var _ = require('lodash');
 
 module.exports = search;
