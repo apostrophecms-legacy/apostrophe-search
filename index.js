@@ -19,6 +19,17 @@ search.Search = function(options, callback) {
   // Mix in the ability to serve assets and templates
   self._apos.mixinModuleAssets(self, 'search', __dirname, options);
 
+  // Use the setBridge call to do things we don't want to do
+  // until other modules have been configured
+  self.setBridge = function(modules) {
+    // A simple way for modules to declare themselves unsearchable:
+    // just listen for the "unsearchable" event and push page type names
+    // onto the array it receives as its sole argument.
+
+    self.unsearchable = [];
+    apos.emit('unsearchable', self.unsearchable);
+  };
+
   // A page loader function. If the page type is 'search',
   // it'll kick in and make search results available in req.extras.search.
   // You enable this by specifying it when you set your loader option in
@@ -57,13 +68,6 @@ search.Search = function(options, callback) {
 
     var resultGroups = [];
 
-    // A simple way for modules to declare themselves unsearchable:
-    // just listen for the "unsearchable" event and push page type names
-    // onto the array it receives as its sole argument.
-
-    var unsearchable = [];
-    apos.emit('unsearchable', unsearchable);
-
     var filtersActive = [];
     var filtersInactive = [];
 
@@ -100,8 +104,8 @@ search.Search = function(options, callback) {
         });
       }
     }
-    if (unsearchable.length) {
-      typeCriteria.$nin = (typeCriteria.$nin || []).concat(unsearchable);
+    if (self.unsearchable.length) {
+      typeCriteria.$nin = (typeCriteria.$nin || []).concat(self.unsearchable);
     }
     if (typeCriteria.$in || typeCriteria.$nin) {
       criteria.type = typeCriteria;
