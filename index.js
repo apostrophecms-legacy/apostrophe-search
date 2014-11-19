@@ -130,6 +130,13 @@ search.Search = function(options, callback) {
 
     self.addPager(req, options);
 
+    if (req.extras.pager.page > 100) {
+      // Very large numbers of results can cause MongoDB to
+      // issue sort errors and are not useful. -Tom
+      req.notfound = true;
+      return setImmediate(callback);
+    }
+
     return self.get(req, criteria, options, function(err, results) {
       if (err) {
         console.error(err);
@@ -155,6 +162,7 @@ search.Search = function(options, callback) {
 
   self.addPager = function(req, options) {
     var pageNumber = self._apos.sanitizeInteger(req.query.page, 1, 1);
+
     req.extras.pager = {
       page: pageNumber
     };
@@ -168,6 +176,11 @@ search.Search = function(options, callback) {
       req.extras.pager.total = Math.ceil(total / self._perPage);
       if (req.extras.pager.total < 1) {
         req.extras.pager.total = 1;
+      }
+      // Very large numbers of text search results can cause
+      // mongodb to generate sorting errors and are not useful. -Tom
+      if (req.extras.pager.total > 100) {
+        req.extras.pager.total = 100;
       }
     }
   };
