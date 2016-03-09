@@ -51,7 +51,7 @@
             {% if image %}
               <img class="search-result-thumbnail" src="{{ aposFilePath(image, { size: 'one-sixth' }) }}" />
             {% endif %}
-            <p class="search-result-text">{{ result.searchSummary | truncate(400) }}</p>
+            <p class="search-result-text">{{ result.searchSummary | truncate(400) | e }}</p>
           </li>
         {% endif %}
       {% endfor %}
