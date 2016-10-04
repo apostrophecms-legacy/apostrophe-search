@@ -1,3 +1,7 @@
+## Deprecated for new sites
+
+This module was for A2 0.5.x. For new projects, use Apostrophe 2, which has [a built-in search module](http://apostrophecms.org/docs/tutorials/howtos/search.html).
+
 # apostrophe-search
 
 This module adds a user interface for sitewide search to A2 sites.
