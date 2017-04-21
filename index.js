@@ -192,6 +192,11 @@ search.Search = function(options, callback) {
 
   app.get(self._action + '/search-result', function(req, res) {
     var slug = req.query.slug;
+    if (typeof(slug) !== 'string') {
+      // Don't crash apos.getPage
+      res.statusCode = 404;
+      return res.send('Not Found');
+    }
     return apos.getPage(req, slug, function(err, page) {
       if (!page) {
         res.statusCode = 404;

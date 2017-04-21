@@ -1,6 +1,6 @@
 {
   "name": "apostrophe-search",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "Implements sitewide search for Apostrophe sites",
   "main": "index.js",
   "scripts": {
