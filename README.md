@@ -1,3 +1,7 @@
+# ⛔️ **DEPRECATED** — do not use for new projects
+
+See [our current docs](https://docs.apostrophecms.org/)
+
 ## Deprecated for new sites
 
 This module was for A2 0.5.x. For new projects, use Apostrophe 2, which has [a built-in search module](http://apostrophecms.org/docs/tutorials/howtos/search.html).
